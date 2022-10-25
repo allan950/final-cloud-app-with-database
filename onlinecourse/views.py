@@ -134,15 +134,19 @@ def show_exam_result(request, course_id, submission_id):
 
     choices = submission.choices.all()
 
-    grade = 0
-    
-    for choice in choices:
-        if choice.is_correct:
-            grade += 1
-        
-    total_score = grade * 100 / 2
+    score = 0
+    max_score = 0
 
-    context['grade'] = total_score
+    for question in Question.objects.all():
+        max_score += question.point * 1
+    
+    for i in submission.choices.all().filter(correct=True).values_list('question_id'):
+        score += Question.objects.filter(id=i[0]).first().point   
+        
+    total_score = score * 100 / max_score
+
+
+    context['grade'] = int(total_score)
     context['course'] = course
     context['selected_ids'] = choices
 
