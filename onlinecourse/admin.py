@@ -8,11 +8,11 @@ class ChoiceInline(admin.StackedInline):
     extra = 4
 
 class ChoiceAdmin(admin.ModelAdmin):
-    list_display = ('question')
+    list_display = ('question', 'content')
 
 class QuestionAdmin(admin.ModelAdmin):
     inlines = [ChoiceInline]
-    list_display = ('lesson')
+    list_display =  ['lesson', 'content']
     
 class QuestionInline(admin.StackedInline):
     model = Question
@@ -42,4 +42,4 @@ admin.site.register(Lesson, LessonAdmin)
 admin.site.register(Instructor)
 admin.site.register(Learner)
 admin.site.register(Question, QuestionAdmin)
-admin.site.register(Choice)
+admin.site.register(Choice, ChoiceAdmin)
